@@ -1,61 +1,60 @@
 import React from 'react';
-import { Card } from './ui/card';
-import { Badge } from './ui/badge';
-import { Code2, Workflow, Glasses } from 'lucide-react';
+import { Code2, Workflow, Glasses, Sparkles } from 'lucide-react';
 import { mockExpertise } from '../data/mock';
 
 const iconMap = {
-  'Code2': Code2,
-  'Workflow': Workflow,
-  'Glasses': Glasses
-};
-
-const ExpertiseCard = ({ item }) => {
-  const Icon = iconMap[item.icon];
-  
-  const techBadges = [];
-  for (let i = 0; i < item.techStack.length; i++) {
-    techBadges.push(
-      <Badge key={i} variant="secondary" className="tech-badge">
-        {item.techStack[i]}
-      </Badge>
-    );
-  }
-  
-  return (
-    <Card className="expertise-card">
-      <div className="expertise-card-header">
-        <div className="expertise-icon">
-          <Icon size={32} />
-        </div>
-        <h3 className="expertise-title">{item.title}</h3>
-      </div>
-      <p className="expertise-description">
-        {item.description}
-      </p>
-      <div className="tech-stack">
-        {techBadges}
-      </div>
-    </Card>
-  );
+  Code2: Code2,
+  Workflow: Workflow,
+  Glasses: Glasses,
 };
 
 const Expertise = () => {
   const cards = [];
   for (let i = 0; i < mockExpertise.length; i++) {
-    cards.push(<ExpertiseCard key={i} item={mockExpertise[i]} />);
+    const item = mockExpertise[i];
+    const Icon = iconMap[item.icon] || Code2;
+
+    const techPills = [];
+    if (item.techStack) {
+      for (let j = 0; j < item.techStack.length; j++) {
+        techPills.push(
+          <span key={j} className="tech-pill">
+            {item.techStack[j]}
+          </span>
+        );
+      }
+    }
+
+    cards.push(
+      <div key={i} className="expertise-card">
+        <div className="expertise-icon-wrapper">
+          <Icon size={26} />
+        </div>
+        <h3 className="expertise-card-title">{item.title}</h3>
+        <div className="expertise-tagline">{item.tagline}</div>
+        <p className="expertise-card-desc">{item.description}</p>
+        <div className="expertise-tech-pills">
+          {techPills}
+        </div>
+      </div>
+    );
   }
-  
+
   return (
-    <section id="expertise" className="expertise-section">
+    <section id="expertise" className="section-wrapper">
       <div className="section-container">
-        <div className="section-header">
-          <h2 className="section-title">EXPERTISE</h2>
+        <div>
+          <div className="section-header-pill">
+            <Sparkles size={14} />
+            <span>Core Capabilities</span>
+          </div>
+          <h2 className="section-title">Technical Expertise</h2>
           <p className="section-subtitle">
-            Specialized skills and technical capabilities
+            Specialized engineering capabilities across modern full-stack web platforms,
+            business process automation, and emerging technologies.
           </p>
         </div>
-        
+
         <div className="expertise-grid">
           {cards}
         </div>
